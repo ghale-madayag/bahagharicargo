@@ -14,9 +14,17 @@ $(document).ready(function(){
 	        $(".far", this).removeClass("fa-square").addClass('fa-check-square');
 	      }
 	      $(this).data("clicks", !clicks);
-	})
+    });
+    
+    $("#generate").on('click', function(){
+       var lotNo = $("#newlotNo").val();
 
-
+       if(lotNo==""){
+           alert("Please enter lot number");
+       }else{
+            loadLotNo(lotNo);
+       }
+    })
 
 	$("form#form-mod-all").on('submit', function(e){
       var formData = new FormData($(this)[0]);      
@@ -74,6 +82,7 @@ $(document).ready(function(){
       
 	$('#modMan').on('hidden.bs.modal', function() {
         $("#form-mod-all")[0].reset();
+        $('#shipNo').html('');
         getInv();
   });
 
@@ -97,7 +106,6 @@ $(document).ready(function(){
         }else{
             $.each($("input[name='selectMan']:checked"), function(){
                 var formData = $(this).val(); 
-                
                 loadManifest(formData);
             });
         }
@@ -170,6 +178,27 @@ function loadManifest(id){
           $("#modManEdit").modal('show');
           $("#lotNoEdit").val(id);
           $("#lotNoHide").val(id);
+        }
+
+    });
+}
+
+function loadLotNo(id){
+
+    $.ajax({
+        type: "POST",
+        url: "data/manifest-handler.php",
+        data: "generate="+id,
+        cache: false,
+        success: function(data){
+            if(data!=0){
+                var json = $.parseJSON(data);
+                $(json).each(function(i,val){
+                    $('#shipNo').append('<option selected="selected" value='+val.id+'>'+val.invoice+'</option>').trigger('change');;
+                });
+            }else{
+                toastErr("Error!", "Invalid lot number");
+            }
         }
 
     });

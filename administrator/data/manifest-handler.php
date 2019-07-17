@@ -19,6 +19,32 @@
 			}
 			echo 0;
 		}
+	}elseif(isset($_POST['generate'])){
+		$sql = $handler->prepare('SELECT 
+			shipment.ship_invonum, 
+			shipment.ship_indate, 
+			CONCAT(client_fname," ", client_mname," ", client_lname) as fullname 
+			FROM shipment INNER JOIN client 
+			ON shipment.client_id = client.client_id 
+			WHERE shipment.ship_lot=?');
+
+		$sql->execute(array($_POST['generate']));
+
+		if($sql->rowCount()){
+			while ($row = $sql->fetch(PDO::FETCH_OBJ)) {
+				$fullname = $row->fullname;
+				$result[] = array(
+					'id' => $row->ship_invonum,
+					'invoice' => $row->ship_invonum." | ".$fullname
+				);
+			}
+			echo json_encode($result);
+		}else{
+			echo 0;
+		}
+
+		
+		
 	}elseif(isset($_POST['lotNoEdit'])) {
 		$oldLot = $_POST['lotNoHide'];
 		$newLot = $_POST['lotNoEdit'];
