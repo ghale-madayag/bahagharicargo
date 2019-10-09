@@ -2,7 +2,7 @@
     require_once('handler.php');
     if (!empty($_POST['cliFullname']) && !empty($_POST['recLname'])) {
         $comcodeRec = "REC";
-        $chkSqlRec = $handler->query("SELECT recipient_id FROM recipient ORDER BY recipient_indate DESC");
+        $chkSqlRec = $handler->query("SELECT recipient_id FROM recipient ORDER BY recipient_id DESC");
         if ($chkSqlRec->rowCount()) {
 			$row = $chkSqlRec->fetch(PDO::FETCH_OBJ);
 			$cus_con_rec = substr($row->recipient_id, 3);
