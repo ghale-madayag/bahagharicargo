@@ -14,7 +14,8 @@
                             <div class="form-group row">
                                 <label for="invNum" class="col-sm-2 control-label">Invoice #:</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="invNum" name="invNum" disabled>
+                                    <input type="text" class="form-control" id="invNum" name="invNum">
+                                    <input type="hidden" class="form-control" id="invNumHid" name="invNumHid">
                                 </div>
                                 <label for="lotNum" class="col-sm-2 control-label">Lot #:</label>
                                 <div class="col-sm-4">

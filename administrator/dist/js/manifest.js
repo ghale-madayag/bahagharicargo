@@ -26,6 +26,17 @@ $(document).ready(function(){
        }
     })
 
+    $("#generateUpdate").on('click', function(){
+        var lotNo = $("#AddlotNo").val();
+        console.log(lotNo)
+ 
+        if(lotNo==""){
+            alert("Please enter lot number");
+        }else{
+            loadLotNoUpdate(lotNo);
+        }
+     })
+
 	$("form#form-mod-all").on('submit', function(e){
       var formData = new FormData($(this)[0]);      
 
@@ -171,7 +182,7 @@ function loadManifest(id){
         success: function(data){
           var json = $.parseJSON(data);
           $(json).each(function(i,val){
-              $('#shipNoEdit').append('<option selected="selected" value='+val.id+'>'+val.invoice+'</option>').trigger('change');;
+              $('#shipNoEdit').append('<option selected="selected" value='+val.id+'>'+val.invoice+'</option>').trigger('change');
           });
 
           
@@ -195,6 +206,27 @@ function loadLotNo(id){
                 var json = $.parseJSON(data);
                 $(json).each(function(i,val){
                     $('#shipNo').append('<option selected="selected" value='+val.id+'>'+val.invoice+'</option>').trigger('change');;
+                });
+            }else{
+                toastErr("Error!", "Invalid lot number");
+            }
+        }
+
+    });
+}
+
+function loadLotNoUpdate(id){
+
+    $.ajax({
+        type: "POST",
+        url: "data/manifest-handler.php",
+        data: "generate="+id,
+        cache: false,
+        success: function(data){
+            if(data!=0){
+                var json = $.parseJSON(data);
+                $(json).each(function(i,val){
+                    $('#shipNoEdit').append('<option selected="selected" value='+val.id+'>'+val.invoice+'</option>').trigger('change');;
                 });
             }else{
                 toastErr("Error!", "Invalid lot number");

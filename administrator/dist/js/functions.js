@@ -36,7 +36,6 @@ function icheckboxShip() {
 		checkboxClass: 'icheckbox_flat-green',
 		radioClass: 'iradio_flat-green'
 	});
-
 }
 
 function getClient() {

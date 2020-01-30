@@ -82,7 +82,9 @@
         echo 1;
     
     }else if(isset($_POST['shipEdit'])){
+        $inv = isset($_POST['invNumHid']);
         $sql = $handler->prepare("UPDATE shipment SET 
+                    ship_invonum=:ship_invonum,
                     ship_lot=:ship_lot,
                     ship_date=:ship_date,
                     agent_code=:agent_code,
@@ -110,6 +112,7 @@
                     WHERE ship_invonum=:invNum"
         );
         $sql->execute(array(
+                'ship_invonum' =>  isset($_POST['invNum']) ? $_POST['invNum'] : null,
                 'ship_lot' =>  isset($_POST['lotNum']) ? $_POST['lotNum'] : null,
                 'ship_date' =>  isset($_POST['shipDate']) ? $_POST['shipDate'] : null,
                 'agent_code' =>  isset($_POST['agenNum']) ? $_POST['agenNum'] : null,
@@ -137,9 +140,10 @@
                 'invNum' =>  isset($_POST['shipEdit']) ? $_POST['shipEdit'] : null
             )
         );
-        $sqlRem = $handler->prepare("UPDATE remarks SET rem_etarem=:remarks 
+        $sqlRem = $handler->prepare("UPDATE remarks SET rem_etarem=:remarks, ship_invnum=:ship_invonum 
             WHERE ship_invnum=:invNum");
         $sqlRem->execute(array(
+            'ship_invonum' =>  isset($_POST['invNum']) ? $_POST['invNum'] : null,
             'remarks' =>  isset($_POST['etaRem']) ? $_POST['etaRem'] : null,
             'invNum' =>  isset($_POST['shipEdit']) ? $_POST['shipEdit'] : null
         ));

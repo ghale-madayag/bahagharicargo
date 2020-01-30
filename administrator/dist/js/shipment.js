@@ -76,8 +76,9 @@ $(document).ready(function(){
 			success: function(data) {
               
                 if(data==1){
+                    var inv = $("#invNum").val();
                     toastSuccess("Successfully Updated", "The shipment information was successfully updated <a href='shipment.php'> View All</a>");
-                   
+                    $("#shipEdit").val(inv);
                 }else{
                     toastErr("Error!", "There was a problem on saving!");
                 }
@@ -228,6 +229,7 @@ function getShipInfo(){
            var json = $.parseJSON(data);
            $(json).each(function(i,val){
                 $("#invNum").val(val.ship_invonum);
+                $("#invNumHid").val(val.ship_invonum);
                 $("#lotNum").val(val.ship_lot);
                 $("#shipDate").val(val.ship_date);
                 $("#agenNum").val(val.agent_code);

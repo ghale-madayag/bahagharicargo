@@ -104,6 +104,17 @@
                       <input type="hidden" name="lotNoHide" id="lotNoHide">
                    </div>
               </div>
+              <div class="col-md-9">
+                  <div class="form-group">
+                      <label for="lotNo" class="col-form-label">Add Lot Number:</label>
+                      <input type="text" class="form-control" id="AddlotNo" name="AddlotNo" required>
+                   </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <a id="generateUpdate" class="btn btn-default" style="margin-top:40px;">Generate</a>
+                </div>
+              </div>
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="shipNoEdit" class="col-form-label">Invoice Number:</label>
