@@ -16,6 +16,22 @@ $(document).ready(function(){
         }
 
     })
+
+    $("#view").on('click', function(){
+        var len = $("input[name='selectMan']:checked").length;
+
+        if(len==0){
+            alert('Please select report');
+        }else if(len>1){
+            alert('Please select only one report');
+        }else{
+            $.each($("input[name='selectMan']:checked"), function(){
+                var formData = $(this).val(); 
+                var encryptedAES = CryptoJS.AES.encrypt(formData, "My Secret Passphrase");
+                window.location.replace('sales-export.php?ship='+encryptedAES);
+            });
+        }
+    })
 })
 
 function getAllMan() {
@@ -73,6 +89,7 @@ function getAllMan() {
      $("#form-man-all div.toolbar").html('<div class="mailbox-controls">'+
          '<div class="btn-group">'+
             '<button type="button" class="btn btn-default btn-sm" id="print" title="Print"><i class="fa fa-print"></i> Print</button>'+
+            '<button type="button" class="btn btn-default btn-sm" id="view" title="View"><i class="fa fa-eye"></i> View</button>'+
             '</div>'+
         '</div>');
 
