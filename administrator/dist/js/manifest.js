@@ -1,6 +1,20 @@
 $(document).ready(function(){
   var rows_selected = [];
+    $("#view").on('click', function(){
+        var len = $("input[name='selectMan']:checked").length;
 
+        if(len==0){
+            alert('Please select report');
+        }else if(len>1){
+            alert('Please select only one report');
+        }else{
+            $.each($("input[name='selectMan']:checked"), function(){
+                var formData = $(this).val(); 
+                var encryptedAES = CryptoJS.AES.encrypt(formData, "My Secret Passphrase");
+                window.location.replace('manifest-export.php?lot='+encryptedAES);
+            });
+        }
+    })
   
 	$("#manCheck").on('click', function(){
 		var clicks = $(this).data('clicks');
@@ -295,6 +309,7 @@ function getAllMan() {
             '<button type="button" class="btn btn-default btn-sm" id="del" title="Delete"><i class="fa fa-trash"></i> Delete</button>'+
             '<button type="button" class="btn btn-default btn-sm" id="edit" title="Edit"><i class="fa fa-edit"></i> Edit</button>'+
 			'<button type="button" class="btn btn-default btn-sm" title="Add" data-toggle="modal" data-target="#modMan"><i class="fas fa-file-medical"></i> Create Manifest</button>'+
+            '<button type="button" class="btn btn-default btn-sm" id="view" title="View"><i class="fa fa-eye"></i> View</button>'+
             '<button type="button" class="btn btn-default btn-sm" id="print" title="Print"><i class="fa fa-print"></i> Print</button>'+
             '</div>'+
         '</div>');
