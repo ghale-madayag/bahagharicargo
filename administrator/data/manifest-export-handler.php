@@ -25,7 +25,7 @@
                         INNER JOIN recipient ON shipment.recipient_id = recipient.recipient_id
                         LEFT JOIN agent ON shipment.agent_code = agent.agent_code
                         INNER JOIN manifest_record ON shipment.ship_invonum = manifest_record.ship_invonum
-                        WHERE manifest_record.man_lotNo=?
+                        WHERE manifest_record.man_lotNo=? GROUP BY shipment.ship_invonum
                         ORDER BY ship_indate DESC
                 ");
 		$sql->execute(array($_POST['view']));

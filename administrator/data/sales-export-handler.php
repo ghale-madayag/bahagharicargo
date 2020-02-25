@@ -3,7 +3,9 @@
     
     if(isset($_POST['view'])){
         $sql = $handler->prepare('SELECT shipment.agent_code, shipment.ship_indate, shipment.ship_invonum, shipment.ship_rqty,shipment.ship_jqty,shipment.ship_iqty,(shipment.ship_rqty+shipment.ship_jqty+shipment.ship_iqty) as total, 
-        (replace(shipment.ship_rcost, "$", "")+replace(shipment.ship_jcost, "$", "")+replace(shipment.ship_icost, "$", "")) as totalAmount FROM shipment INNER JOIN manifest_record ON manifest_record.ship_invonum = shipment.ship_invonum WHERE manifest_record.man_lotNo=?');
+        (replace(shipment.ship_rcost, "$", "")+replace(shipment.ship_jcost, "$", "")+replace(shipment.ship_icost, "$", "")) 
+        as totalAmount FROM shipment INNER JOIN manifest_record ON manifest_record.ship_invonum = shipment.ship_invonum 
+        WHERE manifest_record.man_lotNo=? GROUP BY shipment.ship_invonum');
 
     $sql->execute(array($_POST['view']));
 

@@ -5,7 +5,7 @@
 
 	if(isset($_POST['print'])){
 		$sql = $handler->prepare('SELECT shipment.agent_code, shipment.ship_indate, shipment.ship_invonum, shipment.ship_rqty,shipment.ship_jqty,shipment.ship_iqty,(shipment.ship_rqty+shipment.ship_jqty+shipment.ship_iqty) as total, 
-			(replace(shipment.ship_rcost, "$", "")+replace(shipment.ship_jcost, "$", "")+replace(shipment.ship_icost, "$", "")) as totalAmount FROM shipment INNER JOIN manifest_record ON manifest_record.ship_invonum = shipment.ship_invonum WHERE manifest_record.man_lotNo=?');
+			(replace(shipment.ship_rcost, "$", "")+replace(shipment.ship_jcost, "$", "")+replace(shipment.ship_icost, "$", "")) as totalAmount FROM shipment INNER JOIN manifest_record ON manifest_record.ship_invonum = shipment.ship_invonum WHERE manifest_record.man_lotNo=? GROUP BY shipment.ship_invonum');
 
 		$sql->execute(array($_POST['print']));
 
@@ -26,7 +26,11 @@
 
 		echo json_encode($result);
 	}elseif(isset($_POST['salesData'])){
-		$sql = $handler->prepare('SELECT shipment.ship_indate, shipment.ship_area, SUM(shipment.ship_rqty) as rqty,SUM(shipment.ship_jqty) as jqty,SUM(shipment.ship_iqty) as iqty, (SUM(replace(ship_rcost,"$", ""))+SUM(replace(ship_jcost,"$", ""))+SUM(replace(ship_icost,"$", ""))) as cost FROM shipment INNER JOIN manifest_record ON manifest_record.ship_invonum = shipment.ship_invonum WHERE manifest_record.man_lotNo=? GROUP BY man_lotNo');
+		$sql = $handler->prepare('SELECT shipment.ship_indate, shipment.ship_area, SUM(shipment.ship_rqty) as rqty,
+		SUM(shipment.ship_jqty) as jqty,SUM(shipment.ship_iqty) as iqty, 
+		(SUM(replace(ship_rcost,"$", ""))+SUM(replace(ship_jcost,"$", ""))+SUM(replace(ship_icost,"$", ""))) as 
+		cost FROM shipment INNER JOIN manifest_record ON manifest_record.ship_invonum = shipment.ship_invonum 
+		WHERE manifest_record.man_lotNo=? GROUP BY man_lotNo');
 
 		$sql->execute(array($_POST['salesData']));
 

@@ -30,12 +30,12 @@ function getAllManifest() {
             }
         },
          "columns": [
-            { "data": "shipid" },
-      		{ "data": "invoice" },
+            { "data": "invoice" },
+      		{ "data": "cliName" },
             { "data": "tel" },
-            { "data": "address" },
-            { "data": "cliName" },
             { "data": "recName" },
+            { "data": "contact" },
+            { "data": "address" },
             { "data": "box" },
             { "data": "area" },
 

@@ -151,7 +151,7 @@
                         INNER JOIN recipient ON shipment.recipient_id = recipient.recipient_id
                         LEFT JOIN agent ON shipment.agent_code = agent.agent_code
                         INNER JOIN manifest_record ON shipment.ship_invonum = manifest_record.ship_invonum
-                        WHERE manifest_record.man_lotNo=?
+                        WHERE manifest_record.man_lotNo=? GROUP BY shipment.ship_invonum
                         ORDER BY ship_indate DESC
                 ");
 		$sql->execute(array($_POST['print']));
@@ -195,7 +195,7 @@
 	}else{
 		$result = "";
 		//$cnt = $handler->query("SELECT *")
-		$sql = $handler->query("SELECT COUNT(ship_invonum) as cnt, man_lotNo FROM manifest_record GROUP BY man_lotNo");
+		$sql = $handler->query("SELECT COUNT(DISTINCT ship_invonum) as cnt, man_lotNo FROM manifest_record GROUP BY man_lotNo");
 
 		while ($row = $sql->fetch(PDO::FETCH_OBJ)) {
 
